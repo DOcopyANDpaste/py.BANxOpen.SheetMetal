@@ -1,0 +1,9 @@
+{
+  "geometryMatchTolerance": 0.0005,
+  "parameterMapping": [
+    { "feature": "Height", "specColumn": "H" },
+    { "feature": "Radius", "specColumn": "R&RADS" },
+    { "feature": "DieRadius", "specColumn": "RADP" },
+    { "feature": "Thickness", "specColumn": "THICKNESS" }
+  ]
+}

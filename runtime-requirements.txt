@@ -1,0 +1,1 @@
+﻿# None: BANxOpen.SheetMetal needs the standard library only inside NX.

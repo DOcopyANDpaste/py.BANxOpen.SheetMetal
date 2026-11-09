@@ -1,0 +1,1 @@
+﻿Copy into SHEETMETAL\BA_NXOPEN_settings\ under UGII_USER_DIR, UGII_GROUP_DIR or UGII_SITE_DIR. Set materialTable in sheetmetal-settings.json to the file name of the sheet metal material standards file in SHEETMETAL\. bead-settings.json is optional; these values are the defaults.

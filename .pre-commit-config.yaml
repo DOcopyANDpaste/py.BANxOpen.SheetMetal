@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - {id: ruff-format, name: ruff format, entry: .venv/Scripts/ruff format, language: system, types: [python]}
+      - {id: ruff, name: ruff, entry: .venv/Scripts/ruff check --fix, language: system, types: [python]}
+      - {id: pyright, name: pyright, entry: .venv/Scripts/pyright, language: system, pass_filenames: false}
+      - {id: import-linter, name: import-linter, entry: .venv/Scripts/lint-imports, language: system, pass_filenames: false}
+      - {id: pytest, name: pytest, entry: .venv/Scripts/python -m pytest -m "not nx" -q, language: system, pass_filenames: false}

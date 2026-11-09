@@ -1,0 +1,95 @@
+[project]
+name = "banxopen-sheetmetal"
+description = "BANxOpen SheetMetal: bead SPECs, the sheet metal material standards file, Sheet Metal Preferences and requirements in NX."
+dynamic = ["version"]
+requires-python = "==3.11.*"          # must match NX 2412's embedded Python
+dependencies = ["banxopen-foundation>=1.0.1", "banxopen-materials>=1.0.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-cov", "ruff", "pyright", "import-linter", "pre-commit", "openpyxl"]  # openpyxl: test workbooks only
+
+[tool.uv.sources]
+banxopen-foundation = { path = "../BANxOpen.Foundation", editable = true }
+banxopen-materials = { path = "../BANxOpen.Materials", editable = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/banxopen/sheetmetal/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/banxopen"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120               # the team's C# column width
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "RET", "PTH", "TID", "RUF", "BLE", "ANN"]
+ignore = ["ANN401"]                   # Any is allowed at NX boundaries (with a comment)
+
+[tool.ruff.lint.isort]
+known-first-party = ["banxopen"]
+known-local-folder = ["builders"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["ANN"]
+"scripts/**" = ["ANN", "BLE"]
+"**/*_generated.py" = ["ALL"]
+
+[tool.ruff.format]
+exclude = ["**/*_generated.py"]
+
+[tool.pyright]
+pythonVersion = "3.11"
+typeCheckingMode = "standard"
+include = ["src", "tests"]
+venvPath = "."
+venv = ".venv"
+strict = ["src/banxopen/sheetmetal/model", "src/banxopen/sheetmetal/core"]
+stubPath = "typings"                  # junction to %UGII_BASE_DIR%\UGOPEN\pythonStubs (see README)
+reportMissingModuleSource = false     # NXOpen has stubs but no source outside NX
+ignore = ["**/*_generated.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "tests"]
+addopts = "-ra --strict-markers"
+markers = ["nx: needs a running NX session (excluded from CI)"]
+
+[tool.coverage.run]
+source = ["banxopen.sheetmetal"]
+omit = ["*/nx_adapters/*"]
+
+[tool.importlinter]
+root_packages = ["banxopen.sheetmetal", "banxopen.foundation", "banxopen.materials"]   # listed so their internals can be forbidden
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Layers: nx_adapters -> core -> model"
+type = "layers"
+layers = [
+    "banxopen.sheetmetal.nx_adapters",
+    "banxopen.sheetmetal.core",
+    "banxopen.sheetmetal.model",
+]
+
+[[tool.importlinter.contracts]]
+name = "Foundation and Materials used only through their public API"
+type = "forbidden"
+source_modules = ["banxopen.sheetmetal"]
+forbidden_modules = [
+    "banxopen.foundation.core", "banxopen.foundation.model", "banxopen.foundation.nx_adapters",
+    "banxopen.materials.core", "banxopen.materials.model", "banxopen.materials.nx_adapters",
+]
+allow_indirect_imports = true
+
+[[tool.importlinter.contracts]]
+name = "No NXOpen in core or model"
+type = "forbidden"
+source_modules = ["banxopen.sheetmetal.core", "banxopen.sheetmetal.model"]
+forbidden_modules = ["NXOpen"]
+allow_indirect_imports = true

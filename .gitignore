@@ -1,0 +1,10 @@
+.venv/
+typings/
+__pycache__/
+*.pyc
+.coverage
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.import_linter_cache/
+docs/migration/
