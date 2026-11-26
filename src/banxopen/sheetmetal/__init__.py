@@ -9,6 +9,8 @@ Three audiences:
 NX wiring is in `banxopen.sheetmetal.nx`.
 """
 
+from __future__ import annotations
+
 from banxopen.sheetmetal.codes import SheetMetalCodes
 from banxopen.sheetmetal.core.beads.matching import group_curve_chains, match_bead_spec, resolve_beads_on_body
 from banxopen.sheetmetal.core.beads.rules import (

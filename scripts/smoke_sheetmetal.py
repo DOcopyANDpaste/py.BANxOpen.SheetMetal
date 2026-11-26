@@ -1,7 +1,7 @@
 """NX smoke test for BANxOpen SheetMetal. Confirms the [verify] items: the UF call shapes in nx_adapters/uf_modl.py,
 the bead feature type name, and the preference reads.
 
-Run in NX 2412 with a sheet metal part open (File > Execute > Journal, Alt+F8). The Foundation, Materials and SheetMetal
+Run in NX 2606 with a sheet metal part open (File > Execute > Journal, Alt+F8). The Foundation, Materials and SheetMetal
 src folders must be importable: this script adds them when run from the repo.
 
 Read-only:

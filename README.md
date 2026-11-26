@@ -1,6 +1,6 @@
 # BANxOpen.SheetMetal (Python)
 
-This library covers bead SPECs, NX's sheet metal material standards file, the Sheet Metal Preferences, and the sheet metal requirements held in the part. It is the Python port of the C# `BANxOpen.SheetMetal` (NX 2412, CPython 3.11), and it depends on [BANxOpen.Foundation](https://github.com/DOcopyANDpaste/py.BANxOpen.Foundation) and [BANxOpen.Materials](https://github.com/DOcopyANDpaste/py.BANxOpen.Materials).
+This library covers bead SPECs, NX's sheet metal material standards file, the Sheet Metal Preferences, and the sheet metal requirements held in the part. It is the Python port of the C# `BANxOpen.SheetMetal` for NX 2606 (Designcenter), whose embedded Python is CPython 3.12, and it depends on [BANxOpen.Foundation](https://github.com/DOcopyANDpaste/py.BANxOpen.Foundation) and [BANxOpen.Materials](https://github.com/DOcopyANDpaste/py.BANxOpen.Materials).
 
 ## Public API
 
@@ -58,8 +58,10 @@ Samples of the two settings files are in `config-samples/`. Parsed workbooks are
 ## Development
 
 ```powershell
-uv venv --python 3.11
-uv pip install -e ".[dev]"                 # installs ../BANxOpen.Foundation and ../BANxOpen.Materials editable
+python -m venv .venv                       # with Python 3.12: the version NX 2606 embeds (the template's .venv works)
+.venv\Scripts\python -m pip install -e ..\BANxOpen.Foundation   # sibling repos first, in dependency order: pip does not read [tool.uv.sources]
+.venv\Scripts\python -m pip install -e ..\BANxOpen.Materials
+.venv\Scripts\python -m pip install -e ".[dev]"
 New-Item -ItemType Junction -Path .\typings -Target "$env:UGII_BASE_DIR\UGOPEN\pythonStubs"
 
 .venv\Scripts\ruff check . ; .venv\Scripts\pyright ; .venv\Scripts\lint-imports ; .venv\Scripts\python -m pytest --cov
